@@ -1,0 +1,20 @@
+---
+- hosts: jenkins
+  become: yes
+  tasks:
+    - name: Task 1- Update APT package manager repositories cache
+      become: true
+      apt:
+        update_cache: yes
+    - name: Task 2- Install packages
+      command: apt-get install -y apt-transport-https ca-certificates curl
+    - name: Task 3- Adding GPG Key Google Cloud
+      shell: curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
+    - name: Task 3- Adding repository Kubernetes
+      shell: echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
+    - name: Task 4- Update APT package manager repositories cache
+      become: true
+      apt:
+        update_cache: yes
+    - name: Task 5- Install Kubernetes tool
+      apt: name=kubectl update_cache=yes

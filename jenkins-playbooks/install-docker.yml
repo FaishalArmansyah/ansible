@@ -1,0 +1,27 @@
+---
+- hosts: jenkins
+  tasks:
+    - name: Task 1- Update APT package manager repositories cache
+      become: true
+      apt:
+        update_cache: yes
+    - name: Task 2- Download script from get.docker.com
+      shell: curl -fsSL https://get.docker.com -o get-docker.sh
+    - name: Task 3- install the latest stable release of Docker
+      shell: sh get-docker.sh
+      become: yes
+    - name: Task 4- Ensure docker is installed
+      apt: name=docker update_cache=yes
+      become: yes
+    - name: Task 5- Ensure docker is running
+      service: name=docker state=started
+    - name: Task 6- Add jenkins to group docker
+      shell: usermod -aG docker jenkins
+      become: yes
+    - name: Task 7- Add ubuntu to group docker
+      shell: usermod -aG docker ubuntu
+      become: yes
+    - name: Task 8- Ensure docker is restart
+      service: name=docker state=restarted
+      become: yes
+

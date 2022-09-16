@@ -1,0 +1,9 @@
+[local]
+127.0.0.1
+
+[jenkins]
+jenkins_svr ansible_host=18.143.140.43
+
+[all:vars]
+ansible_ssh_private_key_file=/home/ubuntu/ansible/devops-key
+ansible_python_interpreter=/usr/bin/python3
